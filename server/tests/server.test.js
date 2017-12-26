@@ -85,3 +85,38 @@ describe('POST /todos', () =>{
   });
 
 });
+
+describe('DELETE /todos', () =>{
+  // it('should remove a todo', (done) => {
+  //   var hexId = todos[1]._id.toHexString();
+  //   request(app)
+  //   .delete(`/todos/${hexId}`)
+  //   .expect(200)
+  //   .expect(()=>{
+  //     expect(res.body.todo._id).toBe(hexId)
+  //   })
+  //   .end((err,res) =>{
+  //     if(!err){
+  //       return done(err);
+  //     }
+  //     Todo.findBy  Id(hexId).then((todo)=>{
+  //       expect(todo).toNotExist();
+  //       done();
+  //     }).catch((e)=>done(e))
+  //   })
+  // })
+
+  it('should return 404 for non object ids',(done) => {
+    request(app)
+    .delete('/todos/123')
+    .expect(404)
+    .end(done)
+  });
+
+  it('should return 404 if object id is invalid', (done) => {
+    request(app)
+    .get(`/todos/${new ObjectID().toHexString()}`)
+    .expect(404)
+    .end(done);
+  })
+})
