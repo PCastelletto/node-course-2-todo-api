@@ -46,13 +46,21 @@ app.get('/todos/:id', (req,res) =>{
     }
     res.status(200).send({todo});
   }).catch((e)=>res.status(400).send());
-  //res.status(200).send({text:'wiii'});
+});
 
-  //find by id
-    //success: if todo => send it back else
-      //id not found 404 with empty
-    //error : send back 400 and send empty body
-})
+app.delete('/todos/:id',(req,res) => {
+  // get the id
+  var id = req.params.id;
+  if(!ObjectId.isValid(id)) {
+    return res.status(404).send();
+  }
+  Todo.findByIdAndRemove(id).then((todo)=>{
+    if(!todo) {
+      return res.status(404).send();
+    }
+    res.status(200).send({todo});
+  }).catch((e)=>res.status(400).send());
+});
 
 app.listen(port, () =>{
   console.log(`Started on port ${port}`);
