@@ -66,13 +66,13 @@ app.delete('/todos/:id',(req,res) => {
 app.patch('/todos/:id',(req,res)=>{
   var id = req.params.id;
   var body = _.pick(req.body,['text','completed']);
-
+  console.log(body);
   if(!ObjectId.isValid(id)) {
-    return res.status(404).send();
+    return res.status(404).send('');
   }
 
   if(_.isBoolean(body.completed) && body.completed) {
-    body.completedAt = new Date().getTime;
+    body.completedAt = new Date().getTime();
   } else {
     body.completed = false;
     body.completedAt = null;
@@ -84,7 +84,8 @@ app.patch('/todos/:id',(req,res)=>{
     }
     res.send({todo});
   }).catch((e) =>{
-    res.status(400).send();
+    console.log(e);
+    res.status(400).send(e);
   })
 });
 
